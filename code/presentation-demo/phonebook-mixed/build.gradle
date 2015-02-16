@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'jetty'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework:spring-webmvc:4.1.4.RELEASE'
+    compile 'javax.servlet:javax.servlet-api:3.0.1'
+
+}
+
+jettyRun {
+    contextPath = "/"
+}
