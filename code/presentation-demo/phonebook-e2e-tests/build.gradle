@@ -10,4 +10,6 @@ dependencies {
     testCompile 'org.apache.httpcomponents:httpclient:4.3.6'
     testCompile 'info.cukes:cucumber-junit:1.2.2'
     testCompile 'info.cukes:cucumber-java:1.2.2'
+    testCompile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+
 }
