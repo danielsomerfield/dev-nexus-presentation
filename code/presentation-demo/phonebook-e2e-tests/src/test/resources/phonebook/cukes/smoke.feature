@@ -6,9 +6,10 @@ Feature: Smoke Test
     When I ping the health check
     Then I see a healthy response
 
-#  @wip
-#  Scenario: Application is healthy
-#
+  Scenario: The application UI shows up
+    When I go to the application UI home
+    Then I see the application main page
+
 #  @wip
 #  Scenario: Database is healthy
 
