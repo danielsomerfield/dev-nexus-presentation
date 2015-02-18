@@ -8,13 +8,16 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import phonebook.test.ServiceClient;
 
 import java.util.Optional;
+import java.util.UUID;
 
+import static java.lang.String.format;
 import static org.junit.Assert.assertTrue;
 import static phonebook.test.ServiceClient.client;
 
 public class E2ESteps {
 
     private Optional<IsolatedTest> browserRuntime = Optional.empty();
+    private Optional<ServiceClient.Entry> currentEntry = Optional.empty();
 
     @Given("I am not logged in")
     public void I_am_not_logged_in() throws Throwable {
@@ -32,8 +35,18 @@ public class E2ESteps {
 
     @And("^an entry has been entered into the phone list$")
     public void an_entry_has_been_entered_into_the_phone_list() throws Throwable {
-        client().addEntry(new ServiceClient.Entry("test-lastname", "test-firstname", "test@example.com"));
+        final ServiceClient.Entry newEntry = createNewEntry();
+        client().addEntry(newEntry);
     }
 
-
+    private ServiceClient.Entry createNewEntry() {
+        final String uuid = UUID.randomUUID().toString();
+        final ServiceClient.Entry entry = new ServiceClient.Entry(
+                format("lastname-%s", uuid),
+                format("firstname-%s", uuid),
+                format("email-%s@example.com", uuid)
+        );
+        currentEntry = Optional.of(entry);
+        return entry;
+    }
 }
