@@ -28,5 +28,8 @@ subprojects {
         include '**/*IntTest*'
     }
 
+    task alltest(type:Test, dependsOn:["test", "e2etest", "inttest"]) {
+
+    }
 
 }

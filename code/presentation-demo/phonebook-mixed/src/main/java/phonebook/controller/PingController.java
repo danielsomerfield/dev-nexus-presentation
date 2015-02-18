@@ -1,4 +1,4 @@
-package phonebook.controllers;
+package phonebook.controller;
 
 import lombok.Data;
 import org.springframework.stereotype.Controller;

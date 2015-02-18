@@ -2,6 +2,8 @@ apply plugin: 'java'
 apply plugin: 'jetty'
 
 buildscript {
+    apply from: 'build.properties'
+
     repositories {
         mavenCentral()
     }
@@ -16,8 +18,12 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework:spring-webmvc:4.1.4.RELEASE'
+    compile "org.springframework:spring-webmvc:$spring_version"
     compile 'javax.servlet:javax.servlet-api:3.0.1'
+    compile 'org.mongodb:mongo-java-driver:2.12.2'
+
+    testCompile 'com.github.fakemongo:fongo:1.6.0'
+    testCompile "org.springframework:spring-test:$spring_version"
 }
 
 jettyRun {
