@@ -3,6 +3,8 @@ package phonebook.cukes.steps;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.fluentlenium.adapter.IsolatedTest;
+import org.fluentlenium.core.Fluent;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import phonebook.test.ServiceClient;
 
 import java.util.Optional;
@@ -16,10 +18,16 @@ public class E2ESteps {
 
     @Given("I am not logged in")
     public void I_am_not_logged_in() throws Throwable {
-        final boolean logInDisplayed = browserRuntime.get()
-                .goTo("http://localhost:8080/")
-                .findFirst("#login-form").isDisplayed();
-        assertTrue(logInDisplayed);
+        final Fluent fluent = browseTo("http://localhost:8080/");
+        assertTrue(fluent
+                .findFirst("#login-form").isDisplayed());
+    }
+
+    private Fluent browseTo(final String url) {
+        if (!browserRuntime.isPresent()) {
+            browserRuntime = Optional.of(new IsolatedTest(new PhantomJSDriver()));
+        }
+        return browserRuntime.get().goTo(url);
     }
 
     @And("^an entry has been entered into the phone list$")

@@ -9,12 +9,17 @@ Feature: End-to-end Test
     When  I go to the entry list page
     Then  I see the entry in the entry list
 
-
   @wip
   Scenario: Basic User View
     Given I am not logged in
     When  I go to the entry list page
     Then  I am unable to delete a user
+
+  @wip
+  Scenario: User login
+    Given I am not logged in
+    When  I log in
+    Then  I am logged in
 
   @wip
   Scenario: Admin delete and add
