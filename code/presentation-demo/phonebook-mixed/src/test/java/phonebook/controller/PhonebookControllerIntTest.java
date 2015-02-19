@@ -30,7 +30,6 @@ import static org.junit.Assert.assertThat;
 @EnableWebMvc
 @WebAppConfiguration
 @ComponentScan(
-        basePackages = {"phonebook.controller", "phonebook.config"},
         useDefaultFilters = false,
         includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION,
                 value = {Controller.class, Component.class})})

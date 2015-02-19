@@ -20,16 +20,12 @@ subprojects {
     }
 
 
-    task e2etest(type:Test) {
+    task e2etest(type:Test, dependsOn:["inttest"]) {
         include '**/*E2ETest*'
     }
 
-    task inttest(type:Test) {
+    task inttest(type:Test, dependsOn:["test"]) {
         include '**/*IntTest*'
-    }
-
-    task alltest(type:Test, dependsOn:["test", "e2etest", "inttest"]) {
-
     }
 
 }
