@@ -1,11 +1,13 @@
 package phonebook.controller;
 
 import org.springframework.stereotype.Controller;
-import phonebook.domain.PhonebookEntryList;
+import phonebook.domain.PhonebookEntry;
+
+import java.util.stream.Stream;
 
 @Controller
 public class PhonebookController {
-    public PhonebookEntryList entries() {
+    public Stream<PhonebookEntry> entries() {
         throw new UnsupportedOperationException(); // TODO
     }
 }

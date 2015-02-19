@@ -2,9 +2,19 @@ package phonebook.repository;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import phonebook.domain.PhonebookEntry;
+
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static java.util.Spliterators.spliteratorUnknownSize;
+import static java.util.stream.StreamSupport.stream;
 
 @Repository
 public class PhonebookEntryRepository {
@@ -23,5 +33,18 @@ public class PhonebookEntryRepository {
                 .append("emailAddress", entry.getEmailAddress());
 
         db.getCollection("phonebook-entry").save(dbObject);
+    }
+
+    public Stream<PhonebookEntry> all() {
+        return stream(spliteratorUnknownSize(db.getCollection("phonebook-entry").find().iterator(), Spliterator.IMMUTABLE), false)
+                .map(this::entry);
+    }
+
+    private PhonebookEntry entry(final DBObject object) {
+        return PhonebookEntry.create(
+                (String)object.get("lastName"),
+                (String)object.get("firstName"),
+                (String)object.get("emailAddress")
+        );
     }
 }

@@ -7,8 +7,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import phonebook.IntTest;
 import phonebook.domain.PhonebookEntry;
-import phonebook.domain.PhonebookEntryList;
 import phonebook.repository.PhonebookEntryRepository;
+
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,9 +35,9 @@ public class PhonebookControllerIntTest extends IntTest {
     public void testEntryList() {
         final PhonebookEntry entry = PhonebookEntry.create("last-name", "first-name", "email@example.com");
         phonebookEntryRepository.save(entry);
-        PhonebookEntryList entries = phonebookController.entries();
+        Stream<PhonebookEntry> entries = phonebookController.entries();
         assertThat(entries.count(), is(1));
-        assertThat(entries.next(), is(entry));
+        assertThat(entries.findFirst(), is(entry));
     }
 
 }
