@@ -9,7 +9,6 @@ import phonebook.domain.PhonebookEntry;
 import phonebook.repository.PhonebookEntryRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,7 +33,7 @@ public class PhonebookControllerIntTest extends IntTest {
     public void testEntryList() {
         final PhonebookEntry entry = PhonebookEntry.create("last-name", "first-name", "email@example.com");
         phonebookEntryRepository.save(entry);
-        List<PhonebookEntry> entries = phonebookController.entries().collect(Collectors.toList());
+        List<PhonebookEntry> entries = phonebookController.entries());
         assertThat(entries.size(), is(1));
         assertThat(entries.get(0), is(entry));
     }

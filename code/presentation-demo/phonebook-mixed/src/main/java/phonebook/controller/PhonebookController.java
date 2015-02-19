@@ -2,10 +2,14 @@ package phonebook.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import phonebook.domain.PhonebookEntry;
 import phonebook.repository.PhonebookEntryRepository;
 
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class PhonebookController {
@@ -17,7 +21,9 @@ public class PhonebookController {
         this.repository = repository;
     }
 
-    public Stream<PhonebookEntry> entries() {
-        return repository.all();
+    @RequestMapping(value = "entries", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public List<PhonebookEntry> entries() {
+        return repository.all().collect(Collectors.toList());
     }
 }
