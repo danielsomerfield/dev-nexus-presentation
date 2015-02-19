@@ -1,23 +1,18 @@
-package phonebook.controller;
+package phonebook.repository;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
+import com.mongodb.DBObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import phonebook.IntTest;
 import phonebook.domain.PhonebookEntry;
-import phonebook.domain.PhonebookEntryList;
-import phonebook.repository.PhonebookEntryRepository;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-@Ignore("Not yet implemented.")
-public class PhonebookControllerIntTest extends IntTest {
-
-    @Autowired
-    private PhonebookController phonebookController;
+public class PhonebookEntryRepositoryIntTest extends IntTest {
 
     @Autowired
     private PhonebookEntryRepository phonebookEntryRepository;
@@ -31,12 +26,15 @@ public class PhonebookControllerIntTest extends IntTest {
     }
 
     @Test
-    public void testEntryList() {
+    public void testCreateEntry() {
         final PhonebookEntry entry = PhonebookEntry.create("last-name", "first-name", "email@example.com");
         phonebookEntryRepository.save(entry);
-        PhonebookEntryList entries = phonebookController.entries();
-        assertThat(entries.count(), is(1));
-        assertThat(entries.next(), is(entry));
+        assertThat(db.getCollection("phonebook-entry").count(), is(1l));
+        final DBObject phoneEntry = db.getCollection("phonebook-entry").findOne();
+        assertThat(phoneEntry.get("lastName"), is("last-name"));
+        assertThat(phoneEntry.get("firstName"), is("first-name"));
+        assertThat(phoneEntry.get("emailAddress"), is("email@example.com"));
     }
+
 
 }
