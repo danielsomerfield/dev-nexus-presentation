@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
@@ -45,16 +44,18 @@ public class PhonebookEntryRepositoryIntTest extends IntTest {
 
     @Test
     public void testAll() {
-        final BasicDBObject entry1 = createEntry();
-        db.getCollection("phonebook-entry").save(entry1);
-        final DBObject entry2 = createEntry();
-        db.getCollection("phonebook-entry").save(entry2);
+        final DBObject entry1 = saveNewEntry();
+        final DBObject entry2 = saveNewEntry();
 
         List<PhonebookEntry> entries = phonebookEntryRepository.all().collect(Collectors.toList());
         assertThat(entries.size(), is(2));
 
-        entries.stream().filter(matches(entry1)).findFirst().isPresent();
-        entries.stream().filter(matches(entry2)).findFirst().isPresent();
+        hasMatchingEntry(entry1, entries);
+        hasMatchingEntry(entry2, entries);
+    }
+
+    private boolean hasMatchingEntry(final DBObject entry1, final List<PhonebookEntry> entries) {
+        return entries.stream().filter(matches(entry1)).findFirst().isPresent();
     }
 
     private Predicate<PhonebookEntry> matches(DBObject object) {
@@ -64,12 +65,14 @@ public class PhonebookEntryRepositoryIntTest extends IntTest {
     }
 
 
-    private BasicDBObject createEntry() {
+    private BasicDBObject saveNewEntry() {
         final String uuid = UUID.randomUUID().toString();
-        return new BasicDBObject()
+        final BasicDBObject entry = new BasicDBObject()
                 .append("lastName", format("lastname-%s", uuid))
                 .append("firstName", format("firstname-%s", uuid))
                 .append("emailAddress", format("email-%s@example.com", uuid));
+        db.getCollection("phonebook-entry").save(entry);
+        return entry;
     }
 
 
