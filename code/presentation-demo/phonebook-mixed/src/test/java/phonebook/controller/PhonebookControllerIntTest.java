@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import phonebook.IntTest;
 import phonebook.domain.PhonebookEntry;
+import phonebook.repository.Persisted;
 import phonebook.repository.PhonebookEntryRepository;
 
 import java.util.List;
@@ -33,9 +34,9 @@ public class PhonebookControllerIntTest extends IntTest {
     public void testEntryList() {
         final PhonebookEntry entry = PhonebookEntry.create("last-name", "first-name", "email@example.com");
         phonebookEntryRepository.save(entry);
-        List<PhonebookEntry> entries = phonebookController.entries());
+        List<Persisted<PhonebookEntry, String>> entries = phonebookController.entries();
         assertThat(entries.size(), is(1));
-        assertThat(entries.get(0), is(entry));
+        assertThat(entries.get(0).getEntity(), is(entry));
     }
 
 }

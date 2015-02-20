@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import phonebook.domain.PhonebookEntry;
+import phonebook.repository.Persisted;
 import phonebook.repository.PhonebookEntryRepository;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class PhonebookController {
 
     @RequestMapping(value = "entries", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public List<PhonebookEntry> entries() {
+    public List<Persisted<PhonebookEntry, String>> entries() {
         return repository.all().collect(Collectors.toList());
     }
 }

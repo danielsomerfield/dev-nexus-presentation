@@ -1,7 +1,10 @@
 package phonebook.cukes.steps;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.fluentlenium.adapter.IsolatedTest;
 import org.fluentlenium.core.Fluent;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -18,11 +21,11 @@ public class E2ESteps {
 
     private Optional<IsolatedTest> browserRuntime = Optional.empty();
     private Optional<ServiceClient.Entry> currentEntry = Optional.empty();
+    private Optional<Fluent> currentPage = Optional.empty();
 
     @Given("I am not logged in")
     public void I_am_not_logged_in() throws Throwable {
-        final Fluent fluent = browseTo("http://localhost:8080/");
-        assertTrue(fluent
+        assertTrue(browseTo("http://localhost:8080/")
                 .findFirst("#login-form").isDisplayed());
     }
 
@@ -30,7 +33,10 @@ public class E2ESteps {
         if (!browserRuntime.isPresent()) {
             browserRuntime = Optional.of(new IsolatedTest(new PhantomJSDriver()));
         }
-        return browserRuntime.get().goTo(url);
+
+        final Fluent page = browserRuntime.get().goTo(url);
+        currentPage = Optional.of(page);
+        return page;
     }
 
     @And("^an entry has been entered into the phone list$")
@@ -49,4 +55,14 @@ public class E2ESteps {
         currentEntry = Optional.of(entry);
         return entry;
     }
+
+    @When("^I go to the entry list page$")
+    public void I_go_to_the_entry_list_page() throws Throwable {
+        browseTo("http://localhost:8080/");
+    }
+
+//    @Then("^I see the entry in the entry list$")
+//    public void I_see_the_entry_in_the_entry_list() throws Throwable {
+//        currentPage.map(fluent -> fluent.findFirst())
+//    }
 }

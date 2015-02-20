@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 public class PhonebookEntryRepositoryIntTest extends IntTest {
@@ -34,12 +35,13 @@ public class PhonebookEntryRepositoryIntTest extends IntTest {
     @Test
     public void testCreateEntry() {
         final PhonebookEntry entry = PhonebookEntry.create("last-name", "first-name", "email@example.com");
-        phonebookEntryRepository.save(entry);
+        Persisted<PhonebookEntry, String> persistedEntry = phonebookEntryRepository.save(entry);
         assertThat(db.getCollection("phonebook-entry").count(), is(1l));
         final DBObject phoneEntry = db.getCollection("phonebook-entry").findOne();
         assertThat(phoneEntry.get("lastName"), is("last-name"));
         assertThat(phoneEntry.get("firstName"), is("first-name"));
         assertThat(phoneEntry.get("emailAddress"), is("email@example.com"));
+        assertThat(phoneEntry.get("_id"), is(persistedEntry.getId().getValue()));
     }
 
     @Test
@@ -47,21 +49,22 @@ public class PhonebookEntryRepositoryIntTest extends IntTest {
         final DBObject entry1 = saveNewEntry();
         final DBObject entry2 = saveNewEntry();
 
-        List<PhonebookEntry> entries = phonebookEntryRepository.all().collect(Collectors.toList());
+        List<Persisted<PhonebookEntry, String>> entries = phonebookEntryRepository.all().collect(Collectors.toList());
         assertThat(entries.size(), is(2));
 
         hasMatchingEntry(entry1, entries);
         hasMatchingEntry(entry2, entries);
     }
 
-    private boolean hasMatchingEntry(final DBObject entry1, final List<PhonebookEntry> entries) {
+    private boolean hasMatchingEntry(final DBObject entry1, final List<Persisted<PhonebookEntry, String>> entries) {
         return entries.stream().filter(matches(entry1)).findFirst().isPresent();
     }
 
-    private Predicate<PhonebookEntry> matches(DBObject object) {
-        return e -> e.getEmailAddress() == object.get("emailAddress")
-                && e.getFirstName() == object.get("firstName")
-                && e.getLastName() == object.get("lastName");
+    private Predicate<Persisted<PhonebookEntry, String>> matches(DBObject object) {
+        return e -> e.getEntity().getEmailAddress() == object.get("emailAddress")
+                && e.getEntity().getFirstName() == object.get("firstName")
+                && e.getEntity().getLastName() == object.get("lastName")
+                && e.getId() == object.get("_id");
     }
 
 
