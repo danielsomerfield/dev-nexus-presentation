@@ -42,18 +42,17 @@ public class E2ESteps {
     @And("^an entry has been entered into the phone list$")
     public void an_entry_has_been_entered_into_the_phone_list() throws Throwable {
         final ServiceClient.Entry newEntry = createNewEntry();
-        client().addEntry(newEntry);
+        currentEntry = Optional.of(client().addEntry(newEntry));
     }
 
     private ServiceClient.Entry createNewEntry() {
         final String uuid = UUID.randomUUID().toString();
-        final ServiceClient.Entry entry = new ServiceClient.Entry(
+        return new ServiceClient.Entry(
+                null,
                 format("lastname-%s", uuid),
                 format("firstname-%s", uuid),
                 format("email-%s@example.com", uuid)
         );
-        currentEntry = Optional.of(entry);
-        return entry;
     }
 
     @When("^I go to the entry list page$")
@@ -61,8 +60,9 @@ public class E2ESteps {
         browseTo("http://localhost:8080/");
     }
 
-//    @Then("^I see the entry in the entry list$")
-//    public void I_see_the_entry_in_the_entry_list() throws Throwable {
+    @Then("^I see the entry in the entry list$")
+    public void I_see_the_entry_in_the_entry_list() throws Throwable {
+        throw new UnsupportedOperationException("NYI");
 //        currentPage.map(fluent -> fluent.findFirst())
-//    }
+    }
 }

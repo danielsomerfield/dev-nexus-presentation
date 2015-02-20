@@ -13,8 +13,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 
+import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -25,24 +27,30 @@ public class ServiceClient {
     }
 
     @SneakyThrows(IOException.class)
-    public void addEntry(final Entry entry) {
+    public Entry addEntry(final Entry entry) {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             final CloseableHttpResponse response = client.execute(RequestBuilder.create("POST").setUri(getURI("/entry")).setEntity(EntityBuilder.create()
                     .setText(new ObjectMapper().writeValueAsString(entry))
                     .setContentType(ContentType.APPLICATION_JSON)
                     .build()).build());
             assertThat(response.getStatusLine().getStatusCode(), is(HttpStatus.SC_OK));
+            return toEntry(response.getEntity().getContent());
         }
     }
 
+    @SneakyThrows
+    private Entry toEntry(final InputStream content) {
+        return new ObjectMapper().readValue(content, Entry.class);
+    }
+
     private URI getURI(final String path) {
-        return URI.create("http://localhost:8080/services");
+        return URI.create(format("http://localhost:8080/services/%s", path));
     }
 
     @Data
     @AllArgsConstructor()
     public static class Entry {
-
+        private final String id;
         private final String lastName;
         private final String firstName;
         private final String emailAddress;
