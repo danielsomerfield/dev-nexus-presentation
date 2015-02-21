@@ -12,6 +12,8 @@ import phonebook.repository.PhonebookEntryRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 @Controller
 public class PhonebookController {
 
@@ -22,9 +24,15 @@ public class PhonebookController {
         this.repository = repository;
     }
 
-    @RequestMapping(value = "entries", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/entries", method = GET, produces = "application/json")
     @ResponseBody
     public List<Persisted<PhonebookEntry, String>> entries() {
         return repository.all().collect(Collectors.toList());
+    }
+
+    @RequestMapping(value="/entries", method = POST, produces = "application/json")
+    @ResponseBody
+    public Persisted<PhonebookEntry, String> addEntry(final PhonebookEntry entry) {
+        return repository.save(entry);
     }
 }
