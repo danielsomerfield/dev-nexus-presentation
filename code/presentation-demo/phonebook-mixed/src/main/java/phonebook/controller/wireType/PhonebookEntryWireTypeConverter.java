@@ -1,4 +1,4 @@
-package phonebook.controller;
+package phonebook.controller.wireType;
 
 import org.springframework.stereotype.Component;
 import phonebook.controller.wireType.PhonebookEntryWireType;

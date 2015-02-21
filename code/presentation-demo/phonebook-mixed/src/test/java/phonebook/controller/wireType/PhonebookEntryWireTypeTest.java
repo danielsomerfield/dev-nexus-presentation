@@ -1,7 +1,6 @@
 package phonebook.controller.wireType;
 
 import org.junit.Test;
-import phonebook.controller.PhonebookEntryWireTypeConverter;
 import phonebook.domain.PhonebookEntry;
 import phonebook.repository.Persisted;
 

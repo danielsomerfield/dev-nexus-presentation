@@ -62,13 +62,12 @@ public class PhonebookControllerIntTest extends IntTest {
     @Test
     public void testAddEntry() {
         final PhonebookEntryWireType entryWireType = new PhonebookEntryWireType(null, "last-name", "first-name", "email@example.com");
-        final Persisted<PhonebookEntry, String> persisted = phonebookController.addEntry(entryWireType);
-        assertThat(entryWireType, isEquivalentTo(persisted.getEntity()));
+        final PhonebookEntryWireType persisted = phonebookController.addEntry(entryWireType);
 
         final List<Persisted<PhonebookEntry, String>> entries = phonebookEntryRepository.all().collect(Collectors.toList());
         assertThat(entries.size(), is(1));
         assertThat(entryWireType, isEquivalentTo(entries.get(0).getEntity()));
-        assertThat(entries.get(0).getId(), is(persisted.getId()));
+        assertThat(entries.get(0).getId().getValue(), is(persisted.getId()));
     }
 
 }

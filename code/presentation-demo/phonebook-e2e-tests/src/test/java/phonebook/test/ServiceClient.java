@@ -1,6 +1,8 @@
 package phonebook.test;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.Value;
 import org.apache.http.HttpStatus;
@@ -29,7 +31,7 @@ public class ServiceClient {
     @SneakyThrows(IOException.class)
     public Entry addEntry(final Entry entry) {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            final CloseableHttpResponse response = client.execute(RequestBuilder.create("POST").setUri(getURI("/entry")).setEntity(EntityBuilder.create()
+            final CloseableHttpResponse response = client.execute(RequestBuilder.create("POST").setUri(getURI("/entries")).setEntity(EntityBuilder.create()
                     .setText(new ObjectMapper().writeValueAsString(entry))
                     .setContentType(ContentType.APPLICATION_JSON)
                     .build()).build());
@@ -47,12 +49,13 @@ public class ServiceClient {
         return URI.create(format("http://localhost:8080/services/%s", path));
     }
 
-    @Value
+    @Data
     @AllArgsConstructor()
+    @NoArgsConstructor()
     public static class Entry {
-        private final String id;
-        private final String lastName;
-        private final String firstName;
-        private final String emailAddress;
+        private String id;
+        private String lastName;
+        private String firstName;
+        private String emailAddress;
     }
 }

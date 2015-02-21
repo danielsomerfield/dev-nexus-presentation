@@ -2,9 +2,11 @@ package phonebook.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import phonebook.controller.wireType.PhonebookEntryWireType;
+import phonebook.controller.wireType.PhonebookEntryWireTypeConverter;
 import phonebook.domain.PhonebookEntry;
 import phonebook.repository.Persisted;
 import phonebook.repository.PhonebookEntryRepository;
@@ -16,6 +18,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
+@RequestMapping("/services")
 public class PhonebookController {
 
     private final PhonebookEntryWireTypeConverter phonebookEntryWireTypeConverter;
@@ -33,11 +36,11 @@ public class PhonebookController {
         return repository.all().map(phonebookEntryWireTypeConverter::entryToWireType).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/entries", method = POST, produces = "application/json")
+    @RequestMapping(value = "/entries", method = POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public Persisted<PhonebookEntry, String> addEntry(final PhonebookEntryWireType wireType) {
+    public PhonebookEntryWireType addEntry(@RequestBody final PhonebookEntryWireType wireType) {
         //TODO convert this to a save
         final PhonebookEntry entry = phonebookEntryWireTypeConverter.wireTypeToEntry(wireType);
-        return repository.save(entry);
+        return phonebookEntryWireTypeConverter.entryToWireType(repository.save(entry));
     }
 }
