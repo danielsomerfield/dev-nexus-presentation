@@ -1,8 +1,8 @@
 package phonebook.domain;
 
-import lombok.Data;
+import lombok.Value;
 
-@Data(staticConstructor = "create")
+@Value(staticConstructor = "create")
 public class PhonebookEntry {
     private final String lastName;
     private final String firstName;

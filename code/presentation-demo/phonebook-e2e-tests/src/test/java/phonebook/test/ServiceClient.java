@@ -1,8 +1,8 @@
 package phonebook.test;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.SneakyThrows;
+import lombok.Value;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -47,7 +47,7 @@ public class ServiceClient {
         return URI.create(format("http://localhost:8080/services/%s", path));
     }
 
-    @Data
+    @Value
     @AllArgsConstructor()
     public static class Entry {
         private final String id;

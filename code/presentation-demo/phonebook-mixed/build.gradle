@@ -22,9 +22,12 @@ dependencies {
     compile "org.springframework:spring-webmvc:$spring_version"
     compile 'javax.servlet:javax.servlet-api:3.0.1'
     compile 'org.mongodb:mongo-java-driver:2.12.2'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
 
     testCompile 'com.github.fakemongo:fongo:1.6.0'
     testCompile "org.springframework:spring-test:$spring_version"
+    testCompile 'org.skyscreamer:jsonassert:1.2.3'
 }
 
 jettyRun {

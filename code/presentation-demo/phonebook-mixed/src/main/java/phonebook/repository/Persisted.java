@@ -1,8 +1,9 @@
 package phonebook.repository;
 
 import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class Persisted<T, K> {
 
     private final T entity;

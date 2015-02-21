@@ -24,10 +24,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         return internalResourceViewResolver;
     }
 
-
     @Override
-    public void configureDefaultServletHandling(
-            DefaultServletHandlerConfigurer configurer) {
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
 }
