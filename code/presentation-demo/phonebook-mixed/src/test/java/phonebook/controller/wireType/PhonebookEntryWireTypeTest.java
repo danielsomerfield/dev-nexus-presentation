@@ -8,11 +8,11 @@ import phonebook.repository.Persisted;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class PhoneEntryWireTypeTest {
+public class PhonebookEntryWireTypeTest {
 
     @Test
     public void testConversionWithoutId() {
-        final PhoneEntryWireType wireType = new PhoneEntryWireType(null, "last-name", "first-name", "email@address.com");
+        final PhonebookEntryWireType wireType = new PhonebookEntryWireType(null, "last-name", "first-name", "email@address.com");
         final PhonebookEntryWireTypeConverter controller = new PhonebookEntryWireTypeConverter();
         final PhonebookEntry entry = controller.wireTypeToEntry(wireType);
         assertThat(controller.entryToWireType(entry), is(wireType));
@@ -22,7 +22,7 @@ public class PhoneEntryWireTypeTest {
     public void testEntryToWireType() {
         final PhonebookEntry entry = PhonebookEntry.create("last-name", "first-name", "email@address.com");
         final PhonebookEntryWireTypeConverter controller = new PhonebookEntryWireTypeConverter();
-        final PhoneEntryWireType wireType = controller.entryToWireType(entry);
+        final PhonebookEntryWireType wireType = controller.entryToWireType(entry);
         assertThat(controller.wireTypeToEntry(wireType), is(entry));
     }
 
@@ -32,7 +32,7 @@ public class PhoneEntryWireTypeTest {
         final PhonebookEntry entry = PhonebookEntry.create("last-name", "first-name", "email@address.com");
         final Persisted<PhonebookEntry, String> persisted = new Persisted<>(entry, new Persisted.Id<>("an-id"));
         final PhonebookEntryWireTypeConverter controller = new PhonebookEntryWireTypeConverter();
-        final PhoneEntryWireType wireType = controller.entryToWireType(persisted);
+        final PhonebookEntryWireType wireType = controller.entryToWireType(persisted);
         assertThat(wireType.getId(), is("an-id"));
         assertThat(controller.wireTypeToEntry(wireType), is(entry));
 

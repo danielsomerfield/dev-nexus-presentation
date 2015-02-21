@@ -1,7 +1,7 @@
 package phonebook.controller;
 
 import org.springframework.stereotype.Component;
-import phonebook.controller.wireType.PhoneEntryWireType;
+import phonebook.controller.wireType.PhonebookEntryWireType;
 import phonebook.domain.PhonebookEntry;
 import phonebook.repository.Persisted;
 
@@ -10,16 +10,16 @@ public class PhonebookEntryWireTypeConverter {
     public PhonebookEntryWireTypeConverter() {
     }
 
-    public PhoneEntryWireType entryToWireType(final Persisted<PhonebookEntry, String> persisted) {
+    public PhonebookEntryWireType entryToWireType(final Persisted<PhonebookEntry, String> persisted) {
         return entryToWireType(persisted.getId().getValue(), persisted.getEntity());
     }
 
-    public PhoneEntryWireType entryToWireType(final PhonebookEntry entry) {
+    public PhonebookEntryWireType entryToWireType(final PhonebookEntry entry) {
         return entryToWireType(null, entry);
     }
 
-    public PhoneEntryWireType entryToWireType(final String idValue, final PhonebookEntry entity) {
-        return new PhoneEntryWireType(
+    public PhonebookEntryWireType entryToWireType(final String idValue, final PhonebookEntry entity) {
+        return new PhonebookEntryWireType(
                 idValue,
                 entity.getLastName(),
                 entity.getFirstName(),
@@ -27,7 +27,7 @@ public class PhonebookEntryWireTypeConverter {
         );
     }
 
-    public PhonebookEntry wireTypeToEntry(final PhoneEntryWireType entry) {
+    public PhonebookEntry wireTypeToEntry(final PhonebookEntryWireType entry) {
         return PhonebookEntry.create(
                 entry.getLastName(),
                 entry.getFirstName(),
