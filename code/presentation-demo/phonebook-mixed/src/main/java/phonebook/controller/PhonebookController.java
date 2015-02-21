@@ -18,41 +18,26 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 public class PhonebookController {
 
+    private final PhonebookEntryWireTypeConverter phonebookEntryWireTypeConverter;
     private PhonebookEntryRepository repository;
 
     @Autowired
-    public PhonebookController(final PhonebookEntryRepository repository) {
+    public PhonebookController(final PhonebookEntryRepository repository, final PhonebookEntryWireTypeConverter phonebookEntryWireTypeConverter) {
         this.repository = repository;
+        this.phonebookEntryWireTypeConverter = phonebookEntryWireTypeConverter;
     }
 
     @RequestMapping(value = "/entries", method = GET, produces = "application/json")
     @ResponseBody
     public List<PhoneEntryWireType> entries() {
-        return repository.all().map(this::entryToWireType).collect(Collectors.toList());
-    }
-
-    //TODO: move this out
-    private PhoneEntryWireType entryToWireType(final Persisted<PhonebookEntry, String> e) {
-        return new PhoneEntryWireType(
-                e.getId().getValue(),
-                e.getEntity().getLastName(),
-                e.getEntity().getFirstName(),
-                e.getEntity().getEmailAddress()
-                );
+        return repository.all().map(phonebookEntryWireTypeConverter::entryToWireType).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/entries", method = POST, produces = "application/json")
     @ResponseBody
     public Persisted<PhonebookEntry, String> addEntry(final PhoneEntryWireType wireType) {
-        final PhonebookEntry entry = wireTypeToEntry(wireType);
+        //TODO convert this to a save
+        final PhonebookEntry entry = phonebookEntryWireTypeConverter.wireTypeToEntry(wireType);
         return repository.save(entry);
-    }
-
-    private PhonebookEntry wireTypeToEntry(final PhoneEntryWireType entry) {
-        return PhonebookEntry.create(
-                entry.getLastName(),
-                entry.getFirstName(),
-                entry.getEmailAddress()
-        );
     }
 }
