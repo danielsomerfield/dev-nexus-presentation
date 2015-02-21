@@ -1,6 +1,6 @@
 Feature: End-to-end Test
 
-  Background: Basic tests of full application functionality
+#  Background: Basic tests of full application functionality
 
   @wip
   Scenario: Add / View entry

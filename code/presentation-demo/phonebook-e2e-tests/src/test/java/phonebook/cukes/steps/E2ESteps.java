@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static java.lang.String.format;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertTrue;
 import static phonebook.test.ServiceClient.client;
 
@@ -61,7 +62,11 @@ public class E2ESteps {
 
     @Then("^I see the entry in the entry list$")
     public void I_see_the_entry_in_the_entry_list() throws Throwable {
-        throw new UnsupportedOperationException("NYI");
-//        currentPage.map(fluent -> fluent.findFirst())
+        currentPage.get()
+                .await().atMost(3, SECONDS)
+                .until("tr").withClass("phonebook-entry")
+                .with("data-id").equalTo(currentEntry.get().getId()).isPresent();
     }
+
+
 }

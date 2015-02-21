@@ -15,7 +15,7 @@ subprojects {
     }
 
     test {
-        exclude '**/*E2ETest*'
+        exclude '**/*E2ETests*'
         exclude '**/*IntTest*'
     }
 

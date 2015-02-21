@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         strict = true,
-        format = "pretty",
+        plugin = "pretty",
         glue = "phonebook.cukes.steps",
         tags = {"~@wip"}
 )
