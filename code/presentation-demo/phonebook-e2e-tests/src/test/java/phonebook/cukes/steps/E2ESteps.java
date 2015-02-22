@@ -13,12 +13,11 @@ import phonebook.test.ServiceClient;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.fluentlenium.core.filter.FilterConstructor.with;
-import static org.fluentlenium.core.filter.FilterConstructor.withClass;
-import static org.fluentlenium.core.filter.FilterConstructor.withText;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -26,6 +25,14 @@ import static phonebook.test.ServiceClient.client;
 
 public class E2ESteps {
 
+    public static final String DELETE_BUTTON_CSS_CLASS = ".delete-button";
+    public static final String PHONEBOOK_ENTRY_CSS_CLASS = ".phonebook-entry";
+    public static final String DATA_ID_CSS_ATTRIBUTE = "data-id";
+    public static final String PHONEBOOK_ENTRY_EMAIL_ADDRESS_CSS_CLASS = ".phonebook-entry-email-address";
+    public static final String PHONEBOOK_ENTRY_FIRST_NAME_CSS_CLASS = ".phonebook-entry-first-name";
+    public static final String PHONEBOOK_ENTRY_LAST_NAME_CSS_CLASS = ".phonebook-entry-last-name";
+    public static final String DATA_ID = "data-id";
+    public static final String PHONEBOOK_ENTRY = ".phonebook-entry";
     private Optional<IsolatedTest> browserRuntime = Optional.empty();
     private Optional<ServiceClient.Entry> currentEntry = Optional.empty();
     private Optional<Fluent> currentPage = Optional.empty();
@@ -73,16 +80,21 @@ public class E2ESteps {
         final ServiceClient.Entry entry = currentEntry.get();
         currentPage.get()
                 .await().atMost(3, SECONDS)
-                .until(".phonebook-entry")
-                .with("data-id").equalTo(entry.getId())
+                .until(PHONEBOOK_ENTRY)
+                .with(DATA_ID).equalTo(entry.getId())
                 .isPresent();
 
-        //TODO: validate contents
-        final FluentList<FluentWebElement> entryElement = currentPage.get()
-                .find(".phonebook-entry", with("data-id").equalTo(entry.getId()));
-        assertThat(getTextValue(entryElement, ".phonebook-entry-last-name"), is(entry.getLastName()));
-        assertThat(getTextValue(entryElement, ".phonebook-entry-first-name"), is(entry.getFirstName()));
-        assertThat(getTextValue(entryElement, ".phonebook-entry-email-address"), is(entry.getEmailAddress()));
+        findEntryElementAnd(entryElement -> {
+            assertThat(getTextValue(entryElement, PHONEBOOK_ENTRY_LAST_NAME_CSS_CLASS), is(entry.getLastName()));
+            assertThat(getTextValue(entryElement, PHONEBOOK_ENTRY_FIRST_NAME_CSS_CLASS), is(entry.getFirstName()));
+            assertThat(getTextValue(entryElement, PHONEBOOK_ENTRY_EMAIL_ADDRESS_CSS_CLASS), is(entry.getEmailAddress()));
+        });
+    }
+
+    private void findEntryElementAnd(Consumer<FluentList<FluentWebElement>> assertionFunction) {
+        final ServiceClient.Entry entry = currentEntry.get();
+        assertionFunction.accept(currentPage.get()
+                .find(PHONEBOOK_ENTRY_CSS_CLASS, with(DATA_ID_CSS_ATTRIBUTE).equalTo(entry.getId())));
     }
 
     private String getTextValue(final FluentList<FluentWebElement> entryElement, final String nodeClass) {
@@ -90,5 +102,10 @@ public class E2ESteps {
                 .find(nodeClass).getText();
     }
 
+
+    @Then("^I am unable to delete a user$")
+    public void I_am_unable_to_delete_a_user() throws Throwable {
+        assertThat(currentPage.get().find(DELETE_BUTTON_CSS_CLASS).size(), is(0));
+    }
 
 }

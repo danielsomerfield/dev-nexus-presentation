@@ -8,9 +8,9 @@ Feature: End-to-end Test
     When  I go to the entry list page
     Then  I see the entry in the entry list
 
-  @wip
   Scenario: Basic User View
     Given I am not logged in
+    And   an entry has been entered into the phone list
     When  I go to the entry list page
     Then  I am unable to delete a user
 
