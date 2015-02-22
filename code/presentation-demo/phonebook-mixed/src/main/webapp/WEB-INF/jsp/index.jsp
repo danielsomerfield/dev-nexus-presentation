@@ -1,11 +1,14 @@
-<html id="phonebook-app">
+<html id="phonebook-app" ng-app="phonebookApp">
 <head>
     <link rel="stylesheet" href="../../static/js/lib/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="../../static/js/lib/bootstrap/css/bootstrap-theme.css"/>
     <script src="../../static/js/lib/jquery-2.1.3.js"></script>
+    <script src="../../static/js/lib/angular.min.js"></script>
+    <script src="../../static/js/app.js"></script>
+    <script src="../../static/js/controllers.js"></script>
 </head>
 
-<body>
+<body ng-controller="PhonebookController">
 <header>
     <div class="navbar">
         <div class="navbar-inner">
@@ -33,7 +36,9 @@
             </tr>
             </thead>
             <tbody>
+                <tr class="phonebook-entry" ng-repeat="entry in phonebookEntries" data-id="{{entry.id}}">
 
+                </tr>
             </tbody>
         </table>
     </div>

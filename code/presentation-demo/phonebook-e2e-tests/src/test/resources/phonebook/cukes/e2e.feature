@@ -2,7 +2,6 @@ Feature: End-to-end Test
 
   Background: Basic tests of full application functionality
 
-  @wip
   Scenario: Add / View entry
     Given I am not logged in
     And   an entry has been entered into the phone list
