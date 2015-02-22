@@ -37,7 +37,9 @@
             </thead>
             <tbody>
                 <tr class="phonebook-entry" ng-repeat="entry in phonebookEntries" data-id="{{entry.id}}">
-
+                    <td class="phonebook-entry-last-name">{{entry.lastName}}</td>
+                    <td class="phonebook-entry-first-name">{{entry.firstName}}</td>
+                    <td class="phonebook-entry-email-address">{{entry.emailAddress}}</td>
                 </tr>
             </tbody>
         </table>

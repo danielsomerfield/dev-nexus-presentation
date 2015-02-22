@@ -6,6 +6,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.fluentlenium.adapter.IsolatedTest;
 import org.fluentlenium.core.Fluent;
+import org.fluentlenium.core.domain.FluentList;
+import org.fluentlenium.core.domain.FluentWebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import phonebook.test.ServiceClient;
 
@@ -16,6 +18,9 @@ import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.fluentlenium.core.filter.FilterConstructor.with;
 import static org.fluentlenium.core.filter.FilterConstructor.withClass;
+import static org.fluentlenium.core.filter.FilterConstructor.withText;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static phonebook.test.ServiceClient.client;
 
@@ -64,12 +69,25 @@ public class E2ESteps {
 
     @Then("^I see the entry in the entry list$")
     public void I_see_the_entry_in_the_entry_list() throws Throwable {
+
+        final ServiceClient.Entry entry = currentEntry.get();
         currentPage.get()
                 .await().atMost(3, SECONDS)
-                .until("tr").withClass().contains("phonebook-entry")
-                .with("data-id").equalTo(currentEntry.get().getId())
+                .until(".phonebook-entry")
+                .with("data-id").equalTo(entry.getId())
                 .isPresent();
-        
+
+        //TODO: validate contents
+        final FluentList<FluentWebElement> entryElement = currentPage.get()
+                .find(".phonebook-entry", with("data-id").equalTo(entry.getId()));
+        assertThat(getTextValue(entryElement, ".phonebook-entry-last-name"), is(entry.getLastName()));
+        assertThat(getTextValue(entryElement, ".phonebook-entry-first-name"), is(entry.getFirstName()));
+        assertThat(getTextValue(entryElement, ".phonebook-entry-email-address"), is(entry.getEmailAddress()));
+    }
+
+    private String getTextValue(final FluentList<FluentWebElement> entryElement, final String nodeClass) {
+        return entryElement
+                .find(nodeClass).getText();
     }
 
 
