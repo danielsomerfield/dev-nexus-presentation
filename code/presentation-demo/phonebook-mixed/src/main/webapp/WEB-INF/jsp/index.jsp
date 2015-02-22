@@ -2,6 +2,7 @@
 <head>
     <link rel="stylesheet" href="../../static/js/lib/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="../../static/js/lib/bootstrap/css/bootstrap-theme.css"/>
+    <script src="../../static/js/lib/jquery-2.1.3.js"></script>
 </head>
 
 <body>

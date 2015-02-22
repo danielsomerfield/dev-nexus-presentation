@@ -19,7 +19,6 @@ subprojects {
         exclude '**/*IntTest*'
     }
 
-
     task e2etest(type:Test, dependsOn:["inttest"]) {
         include '**/*E2ETest*'
     }

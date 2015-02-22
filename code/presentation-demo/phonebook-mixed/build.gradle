@@ -30,6 +30,10 @@ dependencies {
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
 }
 
+task jsTest(type:Exec) {
+    commandLine 'phantomjs', 'src/test/js/specs/phantomjs-runner.js', 'src/test/js/specs/jasmine-runner.html'
+}
+
 jettyRun {
     contextPath = "/"
 }
