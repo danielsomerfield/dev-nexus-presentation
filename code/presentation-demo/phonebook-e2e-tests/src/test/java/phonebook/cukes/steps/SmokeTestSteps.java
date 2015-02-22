@@ -1,5 +1,6 @@
 package phonebook.cukes.steps;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.http.HttpStatus;
@@ -44,5 +45,17 @@ public class SmokeTestSteps {
     public void I_see_the_application_main_page() throws Throwable {
         final Optional<String> pageId = browserRuntime.map(runtime -> runtime.findFirst("html").getId());
         assertThat(pageId, is(Optional.of(PAGE_ID)));
+    }
+
+    @When("^I ping the mongo database$")
+    public void I_ping_the_mongo_database() throws Throwable {
+        // Express the Regexp above with the code you wish you had
+        throw new PendingException();
+    }
+
+    @Then("^I see that it is healthy$")
+    public void I_see_that_it_is_healthy() throws Throwable {
+        // Express the Regexp above with the code you wish you had
+        throw new PendingException();
     }
 }

@@ -10,6 +10,8 @@ Feature: Smoke Test
     When I go to the application UI home
     Then I see the application main page
 
-#  @wip
-#  Scenario: Database is healthy
+  @wip
+  Scenario: Database is healthy
+    When I ping the mongo database
+    Then I see that it is healthy
 

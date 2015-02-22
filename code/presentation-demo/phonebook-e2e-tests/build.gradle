@@ -5,11 +5,13 @@ repositories {
 }
 
 dependencies {
+    testCompile "org.springframework:spring-core:$spring_version"
     testCompile 'org.fluentlenium:fluentlenium-core:0.10.0'
     testCompile 'com.github.detro:phantomjsdriver:1.2.0'
     testCompile 'org.apache.httpcomponents:httpclient:4.3.6'
     testCompile 'info.cukes:cucumber-junit:1.2.2'
     testCompile 'info.cukes:cucumber-java:1.2.2'
+//    testCompile 'info.cukes:cucumber-spring:1.2.2'
     testCompile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 
 }

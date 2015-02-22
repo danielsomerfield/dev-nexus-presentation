@@ -6,6 +6,8 @@ repositories {
     mavenCentral()
 }
 
+apply from: 'build.properties'
+
 subprojects {
     version = '1.0'
     apply plugin: 'java'
