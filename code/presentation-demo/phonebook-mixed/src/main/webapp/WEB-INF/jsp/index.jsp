@@ -1,3 +1,4 @@
+<%@ page isELIgnored="false" %>
 <html id="phonebook-app" ng-app="phonebookApp">
 <head>
     <link rel="stylesheet" href="../../static/js/lib/bootstrap/css/bootstrap.css"/>
@@ -17,6 +18,7 @@
                 <form class="navbar-form navbar-right" id="login-form">
                     <input id="username-field" type="text" class="form-control" placeholder="Username" />
                     <input id="password-field" type="password" class="form-control" placeholder="Password" />
+                    <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
                 </form>
             </div>
         </div>
