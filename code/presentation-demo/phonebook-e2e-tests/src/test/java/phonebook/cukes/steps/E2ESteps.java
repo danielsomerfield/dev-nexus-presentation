@@ -1,5 +1,6 @@
 package phonebook.cukes.steps;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -19,6 +20,7 @@ import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.fluentlenium.core.filter.FilterConstructor.with;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static phonebook.test.ServiceClient.client;
@@ -33,9 +35,18 @@ public class E2ESteps {
     public static final String PHONEBOOK_ENTRY_LAST_NAME_CSS_CLASS = ".phonebook-entry-last-name";
     public static final String DATA_ID = "data-id";
     public static final String PHONEBOOK_ENTRY = ".phonebook-entry";
+    private static final String USERNAME_FIELD_ID = "#username-field";
+    private static final String PASSWORD_FIELD_ID = "#password-field";
+    private static final String LOGIN_FORM_ID = "#login-form";
     private Optional<IsolatedTest> browserRuntime = Optional.empty();
     private Optional<ServiceClient.Entry> currentEntry = Optional.empty();
     private Optional<Fluent> currentPage = Optional.empty();
+
+    @Given("I am logged in")
+    public void I_am_logged_in() throws Throwable {
+        assertFalse(browseTo("http://localhost:8080/")
+                .findFirst("#login-form").isDisplayed());
+    }
 
     @Given("I am not logged in")
     public void I_am_not_logged_in() throws Throwable {
@@ -106,6 +117,14 @@ public class E2ESteps {
     @Then("^I am unable to delete a user$")
     public void I_am_unable_to_delete_a_user() throws Throwable {
         assertThat(currentPage.get().find(DELETE_BUTTON_CSS_CLASS).size(), is(0));
+    }
+
+    @When("^I log in$")
+    public void I_log_in() throws Throwable {
+        currentPage.get()
+                .fill(USERNAME_FIELD_ID).with("admin")
+                .fill(PASSWORD_FIELD_ID).with("admin")
+                .submit(LOGIN_FORM_ID);
     }
 
 }

@@ -15,8 +15,8 @@
             <div class="container-fluid">
                 <div class="navbar-brand">Phone Book</div>
                 <form class="navbar-form navbar-right" id="login-form">
-                    <input type="text" class="form-control" placeholder="Username" />
-                    <input type="password" class="form-control" placeholder="Password" />
+                    <input id="username-field" type="text" class="form-control" placeholder="Username" />
+                    <input id="password-field" type="password" class="form-control" placeholder="Password" />
                 </form>
             </div>
         </div>
