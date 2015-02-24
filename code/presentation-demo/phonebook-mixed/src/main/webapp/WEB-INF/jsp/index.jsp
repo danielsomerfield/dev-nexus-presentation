@@ -7,6 +7,7 @@
     <script src="../../static/js/lib/angular.min.js"></script>
     <script src="../../static/js/app.js"></script>
     <script src="../../static/js/controllers.js"></script>
+    <meta name="${_csrf.parameterName}" content="${_csrf.token}" />
 </head>
 
 <body ng-controller="PhonebookController">
@@ -26,9 +27,6 @@
 </header>
 <main>
     <div class="container-fluid">
-        <form class="">
-            <input type="text" class="form-control" placeholder="Filter" />
-        </form>
         <table class="table">
             <thead>
             <tr>
@@ -38,7 +36,19 @@
             </tr>
             </thead>
             <tbody>
-                <tr class="phonebook-entry" ng-repeat="entry in phonebookEntries" data-id="{{entry.id}}">
+            <%--<tr>--%>
+                <%--<td>--%>
+                    <%--<input type="text" class="form-control" placeholder="Last Name" />--%>
+                <%--</td>--%>
+                <%--<td>--%>
+                    <%--<input type="text" class="form-control" placeholder="First Name" />--%>
+                <%--</td>--%>
+                <%--<td>--%>
+                    <%--<input type="text" class="form-control" placeholder="Email Address" />--%>
+                <%--</td>--%>
+            <%--</tr>--%>
+
+            <tr class="phonebook-entry" ng-repeat="entry in phonebookEntries" data-id="{{entry.id}}">
                     <td class="phonebook-entry-last-name">{{entry.lastName}}</td>
                     <td class="phonebook-entry-first-name">{{entry.firstName}}</td>
                     <td class="phonebook-entry-email-address">{{entry.emailAddress}}</td>

@@ -31,7 +31,9 @@ public class ServiceClient {
     @SneakyThrows(IOException.class)
     public Entry addEntry(final Entry entry) {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            final CloseableHttpResponse response = client.execute(RequestBuilder.create("POST").setUri(getURI("/entries")).setEntity(EntityBuilder.create()
+            final CloseableHttpResponse response = client.execute(RequestBuilder.create("POST")
+                    .setHeader("X-Test", "true")
+                    .setUri(getURI("/entries")).setEntity(EntityBuilder.create()
                     .setText(new ObjectMapper().writeValueAsString(entry))
                     .setContentType(ContentType.APPLICATION_JSON)
                     .build()).build());

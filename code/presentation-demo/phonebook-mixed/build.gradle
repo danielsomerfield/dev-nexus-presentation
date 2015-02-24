@@ -25,6 +25,9 @@ dependencies {
     compile 'org.mongodb:mongo-java-driver:2.12.2'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
+    compile 'org.slf4j:slf4j-api:1.7.10'
+    compile 'ch.qos.logback:logback-classic:1.1.2'
+    compile 'ch.qos.logback:logback-core:1.1.2'
 
     testCompile 'com.github.fakemongo:fongo:1.6.0'
     testCompile "org.springframework:spring-test:$spring_version"
@@ -36,5 +39,8 @@ task jsTest(type:Exec) {
 }
 
 jettyRun {
+    doFirst {
+        System.setProperty("spring.profiles.active", "test")
+    }
     contextPath = "/"
 }
