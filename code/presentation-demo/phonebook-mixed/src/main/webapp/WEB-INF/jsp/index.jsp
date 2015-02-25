@@ -16,9 +16,10 @@
         <div class="navbar-inner">
             <div class="container-fluid">
                 <div class="navbar-brand">Phone Book</div>
-                <form class="navbar-form navbar-right" id="login-form">
+                <form class="navbar-form navbar-right" id="login-form" action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
                     <input id="username-field" type="text" class="form-control" placeholder="Username" />
                     <input id="password-field" type="password" class="form-control" placeholder="Password" />
+                    <input type="submit" class="form-control" name="Submit" />
                     <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
                 </form>
             </div>

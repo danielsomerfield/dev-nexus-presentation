@@ -33,13 +33,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().requireCsrfProtectionMatcher(csrfMatcher);
+//        http.csrf().requireCsrfProtectionMatcher(csrfMatcher);
+        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers(GET, "/").permitAll()
                 .antMatchers(GET, "/ping").permitAll()
                 .antMatchers(GET, "/static/**").permitAll()
                 .antMatchers(GET, "/services/**").permitAll()
-                .antMatchers(POST, "/services/**").permitAll()
+                .antMatchers(POST, "/services/**").permitAll() //TODO: enable auth
+                .antMatchers(POST, "/j_spring_security_check").permitAll()
                 .anyRequest().denyAll()
         ;
     }
