@@ -21,7 +21,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"phonebook.controller", "phonebook.repository"})
+@ComponentScan(basePackages = {"phonebook.controller", "phonebook.repository", "phonebook.service"})
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean

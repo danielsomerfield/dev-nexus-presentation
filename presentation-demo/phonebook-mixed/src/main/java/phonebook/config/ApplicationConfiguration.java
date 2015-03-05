@@ -16,7 +16,6 @@ import javax.servlet.ServletResponse;
 import java.io.IOException;
 
 @Configuration
-@Import({SecurityConfiguration.class, TestSecurityConfiguration.class})
 public class ApplicationConfiguration {
 
     @Bean
